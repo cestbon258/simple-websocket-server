@@ -283,7 +283,12 @@ class WebSocket(object):
 
       # else do normal data
       else:
-         data = self.client.recv(16384)
+            
+         try:
+            data = self.client.recv(16384)
+         except ssl.SSLWantReadError:
+            return
+        
          if not data:
             raise Exception("remote socket closed")
 
